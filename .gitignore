@@ -1,0 +1,23 @@
+# Entorno virtual
+venv/*
+.venv/
+env/
+backend/venv/*
+frontend/node_modules/*
+
+
+# Python
+__pycache__/
+# MacOS
+.DS_Store
+
+
+# Variables de entorno
+.env
+.venv
+env.bak
+venv.bak
+
+# IDEs
+.vscode/
+.agent/

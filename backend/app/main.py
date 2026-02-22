@@ -2,10 +2,13 @@ from fastapi import FastAPI, File, UploadFile, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from datetime import date
+from pathlib import Path
+import uuid
 
 from app.database import get_db
 from app.schemas import TicketResponse
 from app.services import vision, tickets
+from app.config import UPLOADS_DIR
 
 app = FastAPI(title="GestorAI API", version="2.0.0")
 
@@ -15,6 +18,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Carpeta donde se guardan las fotos (configurada en .env → UPLOADS_DIR)
+UPLOADS_PATH = Path(UPLOADS_DIR)
+UPLOADS_PATH.mkdir(parents=True, exist_ok=True)
 
 
 @app.get("/")
@@ -33,6 +40,12 @@ async def upload_ticket(
 
     image_bytes = await file.read()
 
+    # Guardar la imagen en disco con nombre único para evitar colisiones
+    extension = Path(file.filename).suffix or ".jpg"
+    filename = f"{uuid.uuid4().hex}{extension}"
+    file_path = UPLOADS_PATH / filename
+    file_path.write_bytes(image_bytes)
+
     # Analizar imagen con modelo de visión
     parsed_data = vision.analyze_ticket(image_bytes)
 
@@ -48,7 +61,7 @@ async def upload_ticket(
         db=db,
         parsed_data=parsed_data,
         raw_text=str(parsed_data),
-        url_foto=file.filename,
+        url_foto=filename,
     )
 
     return ticket

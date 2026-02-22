@@ -4,6 +4,8 @@ const processBtn = document.getElementById('process-btn');
 const resultsArea = document.getElementById('results');
 const loader = document.getElementById('loader');
 
+const API_URL = 'http://localhost:8000';
+
 // Al seleccionar imagen
 fileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -12,7 +14,7 @@ fileInput.addEventListener('change', (e) => {
         reader.onload = (e) => {
             preview.src = e.target.result;
             preview.style.display = 'block';
-            processBtn.disabled = false; // Activamos el botón de procesar
+            processBtn.disabled = false;
         };
         reader.readAsDataURL(file);
     }
@@ -20,20 +22,41 @@ fileInput.addEventListener('change', (e) => {
 
 // Al pulsar el botón de procesar
 processBtn.addEventListener('click', async () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+
     loader.style.display = 'block';
     processBtn.disabled = true;
-    resultsArea.innerHTML = '<p>Los agentes de IA están analizando tu ticket...</p>';
+    resultsArea.innerHTML = '<p>Procesando ticket con OCR...</p>';
 
-    // Aquí haremos el FETCH al backend más adelante
-    // setTimeout simulando espera del servidor
-    setTimeout(() => {
-        loader.style.display = 'none';
+    try {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await fetch(`${API_URL}/tickets/upload`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error del servidor: ${response.status}`);
+        }
+
+        const ticket = await response.json();
+
         resultsArea.innerHTML = `
             <div style="text-align: left; background: #f9fafb; padding: 10px; border-radius: 8px;">
-                <p><strong>Comercio:</strong> ---</p>
-                <p><strong>Total:</strong> ---</p>
-                <p><strong>Categoría:</strong> ---</p>
+                <p><strong>Comercio:</strong> ${ticket.comercio ?? '---'}</p>
+                <p><strong>Total:</strong> ${ticket.importe != null ? ticket.importe + ' €' : '---'}</p>
+                <p><strong>Fecha:</strong> ${ticket.fecha_ticket ?? '---'}</p>
+                <p><strong>Categoría:</strong> ${ticket.categoria ?? '---'}</p>
             </div>
         `;
-    }, 2000);
+
+    } catch (error) {
+        resultsArea.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+    } finally {
+        loader.style.display = 'none';
+        processBtn.disabled = false;
+    }
 });

@@ -1,11 +1,11 @@
-version: '3.8'
-
 services:
   # --- BASE DE DATOS (PostgreSQL) ---
   db:
     image: postgres:15-alpine
     container_name: gestor_ai_db
     restart: always
+    env_file:
+      - .env
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -25,12 +25,17 @@ services:
       - "8080:80"
     volumes:
       - ./frontend:/usr/share/nginx/html
+
   # --- BACKEND (Python/FastAPI) ---
-  # Lo dejamos comentado o preparado para cuando lo creemos
-  # backend:
-  #   build: ./backend
-  #   container_name: gestor_ai_back
-  #   volumes:
-  #     - ./backend:/app
-  #   env_file:
-  #     - .env
+  backend:
+    build: ./backend
+    container_name: gestor_ai_back
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env
+    depends_on:
+      - db

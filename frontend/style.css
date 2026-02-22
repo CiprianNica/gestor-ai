@@ -3,6 +3,7 @@
     --primary-hover: #4f46e5;
     --bg: #f3f4f6;
     --text: #1f2937;
+    --success: #10b981;
 }
 
 body {
@@ -11,9 +12,11 @@ body {
     color: var(--text);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
     margin: 0;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
 }
 
 .card {
@@ -21,46 +24,143 @@ body {
     padding: 2rem;
     border-radius: 1.5rem;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 400px;
+    width: 100%;
+    max-width: 420px;
     text-align: center;
 }
+
+h1 { margin: 0 0 0.25rem; font-size: 1.8rem; }
+.subtitle { color: #6b7280; margin: 0 0 1.5rem; font-size: 0.95rem; }
+
+/* ---- Tabs ---- */
+.tab-bar {
+    display: flex;
+    border-radius: 0.75rem;
+    background: #f3f4f6;
+    padding: 4px;
+    margin-bottom: 1.25rem;
+    gap: 4px;
+}
+
+.tab {
+    flex: 1;
+    padding: 0.55rem 0.5rem;
+    border: none;
+    border-radius: 0.6rem;
+    background: transparent;
+    color: #6b7280;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tab.active {
+    background: white;
+    color: var(--primary);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* ---- Contenido de tabs ---- */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ---- Cámara ---- */
+#video {
+    width: 100%;
+    border-radius: 0.75rem;
+    background: #111;
+    max-height: 240px;
+    object-fit: cover;
+    display: none;
+}
+
+.camera-controls {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.btn-secondary {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid var(--primary);
+    border-radius: 0.6rem;
+    background: white;
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.btn-secondary:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* ---- Archivos ---- */
+#ticket-upload { display: none; }
 
 .btn-upload {
     background: var(--primary);
     color: white;
-    padding: 1rem 2rem;
+    padding: 0.9rem 2rem;
     border-radius: 0.75rem;
     cursor: pointer;
-    transition: background 0.3s;
-    display: block;
-    margin-bottom: 1rem;
+    display: inline-block;
+    font-weight: 600;
+    transition: background 0.2s;
+    margin: 0.5rem 0;
 }
 
-.btn-process {
-    background: #10b981;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    width: 100%;
-    font-weight: bold;
+.btn-upload:hover { background: var(--primary-hover); }
+
+/* ---- Otros (pegar) ---- */
+.paste-area {
+    border: 2px dashed #d1d5db;
+    border-radius: 0.75rem;
+    padding: 2.5rem 1rem;
+    color: #9ca3af;
+    font-size: 0.9rem;
     cursor: pointer;
-    margin-top: 1rem;
+    transition: border-color 0.2s;
+    margin: 0.5rem 0;
 }
 
-.btn-process:disabled {
-    background: #d1d5db;
-    cursor: not-allowed;
+.paste-area:hover, .paste-area.drag-over {
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
+/* ---- Preview ---- */
 #preview {
     width: 100%;
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     margin-top: 1rem;
     border: 2px solid #e5e7eb;
 }
 
+/* ---- Botón analizar ---- */
+.btn-process {
+    background: var(--success);
+    color: white;
+    border: none;
+    padding: 0.9rem 1.5rem;
+    border-radius: 0.75rem;
+    width: 100%;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.2s;
+}
+
+.btn-process:hover:not(:disabled) { background: #059669; }
+.btn-process:disabled { background: #d1d5db; cursor: not-allowed; }
+
+/* ---- Loader ---- */
 .loader {
     border: 4px solid #f3f3f3;
     border-top: 4px solid var(--primary);
@@ -68,15 +168,26 @@ body {
     width: 30px;
     height: 30px;
     animation: spin 1s linear infinite;
-    margin: 20px auto;
+    margin: 1rem auto;
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
+
+/* ---- Resultados ---- */
+.results-area {
+    margin-top: 1rem;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.result-label { color: #6b7280; font-weight: 500; }
+.result-value { font-weight: 700; color: var(--text); }

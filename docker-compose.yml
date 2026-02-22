@@ -1,15 +1,36 @@
+version: '3.8'
+
 services:
+  # --- BASE DE DATOS (PostgreSQL) ---
   db:
     image: postgres:15-alpine
     container_name: gestor_ai_db
-    env_file:
-      - .env
+    restart: always
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
     volumes:
       - ./database/data:/var/lib/postgresql/data
       - ./database/init:/docker-entrypoint-initdb.d
+
+  # --- FRONTEND (Nginx) ---
+  frontend:
+    image: nginx:alpine
+    container_name: gestor_ai_front
+    restart: always
     ports:
-      - "5432:5432"
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+  # --- BACKEND (Python/FastAPI) ---
+  # Lo dejamos comentado o preparado para cuando lo creemos
+  # backend:
+  #   build: ./backend
+  #   container_name: gestor_ai_back
+  #   volumes:
+  #     - ./backend:/app
+  #   env_file:
+  #     - .env

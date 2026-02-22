@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GestorAI - Scanner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="card">
+        <h1>GestorAI 🧠</h1>
+        <p>Captura tu ticket para procesarlo con IA</p>
+
+        <label for="ticket-upload" class="btn-upload">
+            📸 Abrir Cámara / Galería
+        </label>
+        <input type="file" id="ticket-upload" accept="image/*" capture="camera">
+
+        <div id="preview-container">
+            <img id="preview" src="" alt="Vista previa" style="display:none;">
+        </div>
+
+        <button id="process-btn" class="btn-process" disabled>
+            Analizar con Agentes IA
+        </button>
+
+        <div id="loader" class="loader" style="display:none;"></div>
+
+        <div id="results" class="results-area">
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

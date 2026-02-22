@@ -1,0 +1,17 @@
+# API
+fastapi
+uvicorn[standard]
+
+# Base de Datos
+sqlalchemy
+psycopg2-binary
+
+# Imágenes
+Pillow
+
+# IA Vision
+groq
+
+# Utilidades
+python-multipart
+python-dotenv

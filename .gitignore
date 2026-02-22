@@ -23,3 +23,7 @@ venv.bak
 
 # Database
 database/data
+
+# Uploads (fotos de tickets)
+backend/uploads/*
+!backend/uploads/.gitkeep

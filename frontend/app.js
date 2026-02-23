@@ -4,10 +4,10 @@ const processBtn = document.getElementById('process-btn');
 const resultsArea = document.getElementById('results');
 const loader = document.getElementById('loader');
 
-// En producción apunta al backend de Azure, en local a localhost
+// En producción apunta al backend de Render, en local a localhost
 const API_URL = window.location.hostname === 'localhost'
     ? 'http://localhost:8000'
-    : 'https://gestor-ai-back.azurewebsites.net';
+    : 'https://gestor-ai.onrender.com';
 
 // Al seleccionar imagen
 fileInput.addEventListener('change', (e) => {

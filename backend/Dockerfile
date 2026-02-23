@@ -9,5 +9,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar el código fuente
 COPY ./app ./app
 
-# Arrancar el servidor con hot-reload
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# Arrancar el servidor
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

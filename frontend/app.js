@@ -4,7 +4,10 @@ const processBtn = document.getElementById('process-btn');
 const resultsArea = document.getElementById('results');
 const loader = document.getElementById('loader');
 
-const API_URL = 'http://localhost:8000';
+// En producción apunta al backend de Azure, en local a localhost
+const API_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:8000'
+    : 'https://gestor-ai-back.azurewebsites.net';
 
 // Al seleccionar imagen
 fileInput.addEventListener('change', (e) => {

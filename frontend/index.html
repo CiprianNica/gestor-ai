@@ -4,32 +4,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GestorAI - Scanner</title>
+    <title>GestorAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="card">
-        <h1>GestorAI 🧠</h1>
-        <p>Captura tu ticket para procesarlo con IA</p>
 
-        <label for="ticket-upload" class="btn-upload">
-            📸 Abrir Cámara / Galería
-        </label>
-        <input type="file" id="ticket-upload" accept="image/*" capture="camera">
+    <!-- PÁGINA PRINCIPAL -->
+    <div id="page-home" class="page active">
+        <div class="home-content">
+            <div class="brand">
+                <span class="brand-icon">⚡</span>
+                <h1>GestorAI</h1>
+                <p class="brand-sub">Escanea. Analiza. Organiza.</p>
+            </div>
 
-        <div id="preview-container">
-            <img id="preview" src="" alt="Vista previa" style="display:none;">
+            <nav class="menu">
+                <button class="menu-btn" id="btn-camera">
+                    <span class="menu-icon">📷</span>
+                    <span class="menu-label">Cámara</span>
+                </button>
+                <button class="menu-btn" id="btn-files">
+                    <span class="menu-icon">📁</span>
+                    <span class="menu-label">Archivos</span>
+                </button>
+                <button class="menu-btn" id="btn-whatsapp">
+                    <span class="menu-icon">💬</span>
+                    <span class="menu-label">WhatsApp</span>
+                </button>
+            </nav>
         </div>
+    </div>
 
-        <button id="process-btn" class="btn-process" disabled>
-            Analizar con Agentes IA
-        </button>
-
-        <div id="loader" class="loader" style="display:none;"></div>
-
-        <div id="results" class="results-area">
+    <!-- PÁGINA: CÁMARA -->
+    <div id="page-camera" class="page">
+        <div class="page-header">
+            <button class="back-btn" data-back="home">← Volver</button>
+            <h2>Cámara</h2>
         </div>
+        <div class="page-body">
+            <label for="input-camera" class="upload-zone">
+                <div class="upload-icon">📷</div>
+                <div class="upload-text">Abrir cámara</div>
+                <div class="upload-hint">Fotografía el ticket con tu móvil</div>
+            </label>
+            <input type="file" id="input-camera" accept="image/*" capture="environment">
+            <div id="preview-camera" class="preview-section" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- PÁGINA: ARCHIVOS -->
+    <div id="page-files" class="page">
+        <div class="page-header">
+            <button class="back-btn" data-back="home">← Volver</button>
+            <h2>Archivos</h2>
+        </div>
+        <div class="page-body">
+            <label for="input-files" class="upload-zone">
+                <div class="upload-icon">📂</div>
+                <div class="upload-text">Seleccionar imagen</div>
+                <div class="upload-hint">JPG, PNG o WEBP desde tu dispositivo</div>
+            </label>
+            <input type="file" id="input-files" accept="image/*">
+            <div id="preview-files" class="preview-section" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- PÁGINA: WHATSAPP -->
+    <div id="page-whatsapp" class="page">
+        <div class="page-header">
+            <button class="back-btn" data-back="home">← Volver</button>
+            <h2>WhatsApp</h2>
+        </div>
+        <div class="page-body">
+            <div class="coming-soon">
+                <div class="coming-icon">🚀</div>
+                <p class="coming-title">Próximamente</p>
+                <p class="coming-desc">Podrás enviar el ticket desde WhatsApp y la IA lo procesará automáticamente.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL RESULTADOS (compartido) -->
+    <div id="results-panel" class="results-panel" style="display:none;">
+        <div class="loader-dots" id="loader" style="display:none;">
+            <span></span><span></span><span></span>
+        </div>
+        <div id="results" class="results-area"></div>
     </div>
 
     <script src="app.js"></script>
